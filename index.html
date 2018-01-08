@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>clickToCopy sample</title>
+    </head>
+    <body>
+
+        <h1>Click To Copy - Demo</h1>
+        <p>Click on an element below to copy its data attribute value to the clipboard.</p>
+        <hr>
+        <h2 class="click-to-copy" data="first">Click me to copy "first" into your clipboard</h2>
+        <h2 class="click-to-copy" data="second">Click me to copy "second" into your clipboard</h2>
+        <h2 class="click-to-copy" data="third">Click me to copy "third" into your clipboard</h2>
+        <h2 class="click-to-copy" data="fourth">Click me to copy "fourth" into your clipboard</h2>
+        <h2 class="click-to-copy" data="fifth">Click me to copy "fifth" into your clipboard</h2>
+        <br>
+        <p>You can paste here to test if the copy worked:</p>
+        <input type="text" name="" value="">
+
+        <script type="text/javascript">
+            // Attach onclick event to all the element with "click-to-copy" class
+            const clickToCopyElements=document.querySelectorAll(".click-to-copy")
+            for (var e=0; e < clickToCopyElements.length; e++) {
+                clickToCopyElements[e].onclick = copyToClipboard
+            }
+
+            // The clickToClipboard function copies the clicked element data property
+            // payload to the clipboard and shows a visual feedback
+            function copyToClipboard(event) {
+                var clip = document.createElement("input");
+                document.querySelector("body").appendChild(clip)
+                clip.value = event.target.attributes["data"].value
+                clip.select()
+                document.execCommand("copy")
+                clip.remove()
+
+                var screen = document.createElement("div")
+                var caption = document.createElement("h1")
+
+                caption.textContent = `"${event.target.attributes["data"].value}" copied to the clipboard`
+                caption.style = "color: #FFFFFF"
+                screen.style="width: 100%; height: 100%; display: flex; position: fixed; top: 0; left: 0; background-color: #000000AA; align-items: center; justify-content: center ;"
+                screen.appendChild(caption)
+
+
+                document.querySelector("body").appendChild(screen)
+                setTimeout(() => { screen.remove() },1000)
+
+            }
+
+
+        </script>
+    </body>
+</html>
